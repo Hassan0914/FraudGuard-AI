@@ -1,8 +1,8 @@
-# FraudGuard-AI: Credit Card Fraud Detection & Scoring API
+# FraudGuard-AI: Credit Card Fraud Detection & Real-Time Scoring Platform
 
-FraudGuard-AI is an end-to-end Machine Learning training, cost-optimization, and real-time inference scoring system for credit card fraud detection built on the ULB Credit Card Fraud dataset (284,807 transactions, ~0.17% fraud rate).
+FraudGuard-AI is an end-to-end Machine Learning training, cost-optimization, real-time inference scoring API, and interactive merchant risk dashboard built on the ULB Credit Card Fraud dataset (284,807 transactions, ~0.17% fraud rate).
 
-The project emphasizes **chronological data splitting**, **from-scratch SMOTE oversampling**, **business cost-sensitive decision threshold optimization**, and a **FastAPI real-time inference backend with SHAP explainability**.
+The project emphasizes **chronological data splitting**, **from-scratch SMOTE oversampling**, **business cost-sensitive decision threshold optimization**, a **FastAPI inference backend with SHAP explainability**, and a **React + Tailwind CSS merchant checkout simulator**.
 
 ---
 
@@ -30,6 +30,11 @@ The project emphasizes **chronological data splitting**, **from-scratch SMOTE ov
    - Serves low-latency real-time fraud predictions with risk level classification (`Low`, `Medium`, `High`) based on the cost-optimal decision threshold (**0.73**).
    - Computes SHAP values per prediction to return the top 5 feature contributions.
 
+7. **React + Tailwind Merchant Risk Simulator**
+   - Interactive merchant/admin dashboard with Quick-Test evaluators pre-populated from real dataset test records.
+   - Live backend health indicator with auto-reconnection polling.
+   - Visual risk payoff card with progress confidence meter and SHAP contribution horizontal bar chart.
+
 ---
 
 ## 📊 Benchmark & Model Comparison
@@ -52,13 +57,21 @@ The project emphasizes **chronological data splitting**, **from-scratch SMOTE ov
 │   ├── train.py                   # Main pipeline script
 │   ├── artifacts/                 # Saved model, scaler & metadata
 │   └── reports/                   # Benchmark report & PR curve plot
-└── backend/
-    ├── config.py                  # Pydantic BaseSettings config
-    ├── schemas.py                 # Pydantic data contracts
-    ├── inference.py               # Singleton FraudModel & SHAP explainer
-    ├── main.py                    # FastAPI application & endpoints
-    ├── requirements.txt           # Backend dependencies
-    └── model_artifacts/           # Local serving artifacts
+├── backend/
+│   ├── config.py                  # Pydantic BaseSettings config
+│   ├── schemas.py                 # Pydantic data contracts
+│   ├── inference.py               # Singleton FraudModel & SHAP explainer
+│   ├── main.py                    # FastAPI application & endpoints
+│   ├── requirements.txt           # Backend dependencies
+│   └── model_artifacts/           # Local serving artifacts
+└── frontend/
+    ├── src/
+    │   ├── api.js                 # API fetch wrappers & health check
+    │   ├── presets.js             # Real transaction presets from test set
+    │   ├── components/            # HealthIndicator, QuickTestButtons, Form, RiskResult
+    │   └── App.jsx                # Main dashboard layout
+    ├── package.json               # React + Tailwind dependencies
+    └── vite.config.js             # Vite configuration
 ```
 
 ---
@@ -83,16 +96,10 @@ The project emphasizes **chronological data splitting**, **from-scratch SMOTE ov
    uvicorn backend.main:app --reload --port 8000
    ```
 
-3. **Score Transaction (Sample Output)**:
+3. **Start React Frontend**:
    ```bash
-   curl -X POST "http://127.0.0.1:8000/predict" \
-        -H "Content-Type: application/json" \
-        -d '{
-          "Time": 406.0, "V1": -2.31, "V2": 1.95, "V3": -1.60, "V4": 3.99,
-          "V5": -0.52, "V6": -1.42, "V7": -2.53, "V8": 1.39, "V9": -2.77,
-          "V10": -2.77, "V11": 3.20, "V12": -2.89, "V13": -0.59, "V14": -4.28,
-          "V15": 0.38, "V16": -1.14, "V17": -2.83, "V18": -0.01, "V19": 0.41,
-          "V20": 0.12, "V21": 0.51, "V22": -0.03, "V23": -0.46, "V24": 0.32,
-          "V25": 0.04, "V26": 0.17, "V27": 0.26, "V28": -0.14, "Amount": 149.62
-        }'
+   cd frontend
+   npm install
+   npm run dev
    ```
+   Open `http://localhost:3000` to interact with the merchant risk simulator dashboard.
