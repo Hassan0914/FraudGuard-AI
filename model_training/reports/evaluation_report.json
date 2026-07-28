@@ -1,0 +1,78 @@
+{
+  "cost_assumptions": {
+    "FP_COST": 10.0,
+    "TP_COST": 10.0,
+    "FN_COST": "actual_transaction_amount",
+    "TN_COST": 0.0
+  },
+  "all_models_metrics": {
+    "Logistic Regression (Balanced)": {
+      "pr_auc": 0.7579223172895824,
+      "roc_auc": 0.9797788780167054,
+      "f1_at_0.5": 0.0503209242618742,
+      "confusion_matrix_at_0.5": [
+        [
+          81646,
+          3689
+        ],
+        [
+          10,
+          98
+        ]
+      ],
+      "optimal_threshold": 0.99,
+      "min_cost": 4563.95,
+      "cost_at_0.5": 39967.04,
+      "savings": 35403.09,
+      "savings_pct": 88.58
+    },
+    "HistGradientBoosting (Sample Weighted)": {
+      "pr_auc": 0.7416705464261029,
+      "roc_auc": 0.9223861187607013,
+      "f1_at_0.5": 0.3778801843317972,
+      "confusion_matrix_at_0.5": [
+        [
+          85091,
+          244
+        ],
+        [
+          26,
+          82
+        ]
+      ],
+      "optimal_threshold": 0.69,
+      "min_cost": 4814.57,
+      "cost_at_0.5": 6644.57,
+      "savings": 1830.0,
+      "savings_pct": 27.54
+    },
+    "HistGradientBoosting (SMOTE)": {
+      "pr_auc": 0.7748865720207914,
+      "roc_auc": 0.9713967175120277,
+      "f1_at_0.5": 0.631578947368421,
+      "confusion_matrix_at_0.5": [
+        [
+          85261,
+          74
+        ],
+        [
+          24,
+          84
+        ]
+      ],
+      "optimal_threshold": 0.73,
+      "min_cost": 3371.66,
+      "cost_at_0.5": 3721.66,
+      "savings": 350.0,
+      "savings_pct": 9.4
+    }
+  },
+  "winning_model": {
+    "name": "HistGradientBoosting (SMOTE)",
+    "best_threshold": 0.73,
+    "cost_at_best_threshold": 3371.66,
+    "cost_at_default_threshold_0.5": 3721.66,
+    "estimated_savings": 350.0,
+    "savings_pct": 9.4
+  }
+}
